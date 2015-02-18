@@ -6,6 +6,8 @@ from PIL import Image
 
 operator_table = ["x",
                   "y",
+                  "invert",
+                  "square",
                   "sin_pi",
                   "cos_pi",
                   "prod",
@@ -34,7 +36,7 @@ def build_random_function(min_depth, max_depth):
     if max_depth ==1:
         upper_operator_choice = 2
     else: 
-        upper_operator_choice = 5
+        upper_operator_choice = 7
     operator = random.randrange(lower_operator_choice,upper_operator_choice)
     f.append(operator_table[operator])
     new_min_depth = min_depth
@@ -43,7 +45,7 @@ def build_random_function(min_depth, max_depth):
     
     if operator<2:
         pass
-    elif operator<4:
+    elif operator<6:
         f.append(build_random_function(new_min_depth,max_depth-1))
     else:
         f.append(build_random_function(new_min_depth,max_depth-1))
@@ -93,6 +95,10 @@ def evaluate_random_function(f, x, y):
             return math.sin(math.pi*evaluate_random_function(f[1],x,y))
         elif f[0] == "cos_pi":
             return math.cos(math.pi*evaluate_random_function(f[1],x,y))
+        elif f[0] == "invert":
+            return -1.0 * evaluate_random_function(f[1],x,y)
+        elif f[0] == "square":
+            return evaluate_random_function(f[1],x,y)**2
     else:
         if f[0] == "prod":
             return evaluate_random_function(f[1],x,y)*evaluate_random_function(f[2],x,y)
@@ -174,16 +180,16 @@ def test_image(filename, x_size=350, y_size=350):
     im.save(filename)
 
 
-def generate_art(filename, x_size=350, y_size=350):
+def generate_art(filename, x_size=450, y_size=450):
     """ Generate computational art and save as an image file.
 
         filename: string filename for image (should be .png)
         x_size, y_size: optional args to set image dimensions (default: 350)
     """
     # Functions for red, green, and blue channels - where the magic happens!
-    red_function = build_random_function(7,9)
-    green_function = build_random_function(7,9)
-    blue_function = build_random_function(7,9)
+    red_function = build_random_function(15,20)
+    green_function = build_random_function(15,20)
+    blue_function = build_random_function(15,20)
 
     # Create image and loop over all pixels
     im = Image.new("RGB", (x_size, y_size))
@@ -208,7 +214,7 @@ if __name__ == '__main__':
     # Create some computational art!
     # TODO: Un-comment the generate_art function call after you
     #       implement remap_interval and evaluate_random_function
-    for x in range(0,100):
+    for x in range(0,5):
         title = "myart"+str(x)+".png"
         generate_art(title)
     # Test that PIL is installed correctly
