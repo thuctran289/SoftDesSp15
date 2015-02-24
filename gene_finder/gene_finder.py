@@ -38,16 +38,16 @@ def get_complement(nucleotide):
     The goal of the above is to cover all/most of the major cases for getting 
     the complement nucleotide.
     """
-    if (nucleotide=='A'):
+    if nucleotide=='A': #don't need these parens
         return 'T'
-    elif (nucleotide =='T'):
+    elif (nucleotide =='T'): #ditto
         return 'A'
     elif (nucleotide =='G'):
         return 'C'
     elif (nucleotide =='C'):
         return 'G'
     else:
-        return ''  
+        return 'Nucleotide not found'   #nice error checking, but you want to have a descriptive error message
 
 def get_reverse_complement(dna):
     """ Computes the reverse complementary sequence of DNA for the specfied DNA
@@ -70,8 +70,8 @@ def get_reverse_complement(dna):
     Added another case to have a little bit more isolated case.
     Another for if it gets an input with nothing in it
     And another for bad input. Assumption is that bad input will be ignored.
-
-
+    
+    ^Nicely done, I appreciate the additional information. Your comments are also very nice
     """
     #Reverses the DNA
     reverse_DNA = dna[::-1]
@@ -143,7 +143,7 @@ def find_all_ORFs_oneframe(dna):
     ORFList = []
     #Start positions on valid parts of the dna code (i.e. mod3==0)
     index = 0
-    while(index<len(dna)):
+    while(index<len(dna)): #while loops are cool, but for loops avoids infinite looping.
         if(dna[index:index+3]=="ATG"):
             new_ORF = rest_of_ORF(dna[index:])
             index += len(new_ORF)
@@ -169,10 +169,12 @@ def find_all_ORFs(dna):
     ['ATGAATGTAG', 'ATG', 'ATGCATGAATGTAG']
     """
     all_ORFs =[]
+    
+    #You should make the below a loop. This works, but is clunky
     dnaSet0 = find_all_ORFs_oneframe(dna[0:])
     dnaSet1 = find_all_ORFs_oneframe(dna[1:])
     dnaSet2 = find_all_ORFs_oneframe(dna[2:])
-    if len(dnaSet0) != 0:
+    if len(dnaSet0) != 0: #you don't need to error check this
         all_ORFs.extend(dnaSet0)
     if len(dnaSet1) != 0:
         all_ORFs.extend(dnaSet1)
@@ -211,7 +213,6 @@ def longest_ORF(dna):
     all_ORFs = find_all_ORFs_both_strands(dna)
     if len(all_ORFs) == 0:
         return ""
-
     maxLength = max(all_ORFs, key = len)
     return maxLength
 
@@ -223,7 +224,7 @@ def longest_ORF_noncoding(dna, num_trials):
         num_trials: the number of random shuffles
         returns: the maximum length longest ORF """
     longestFoundORF = ""
-    for x in range(0,num_trials):
+    for x in range(num_trials): #range assumes starting from 0
         dna1 = shuffle_string(dna)
         if (len(longest_ORF(dna1))>len(longestFoundORF)):
             longestFoundORF = longest_ORF(dna1)
@@ -243,7 +244,7 @@ def coding_strand_to_AA(dna):
         >>> coding_strand_to_AA("ATGCCCGCTTT")
         'MPA'
     """
-    totalLength = len(dna)/3*3
+    totalLength = len(dna)/3*3 #Isn't this literally just len(dna)?
     index = 0
     proteinString  = ''
     while index<totalLength:
@@ -261,7 +262,8 @@ def gene_finder(dna):
         returns: a list of all amino acid sequences whose ORFs meet the minimum
                  length specified.
     """    
-    long_NC_ORF = longest_ORF_noncoding(dna,1500)
+    long_NC_ORF = longest_ORF_noncoding(dna,1500) #this variable should be named 'threshold' or something more
+                                                #descriptive. Clarity is important
     long_C_ORF = [x for x in find_all_ORFs_both_strands(dna) if len(x)>long_NC_ORF]
     amino_acid_list = [coding_strand_to_AA(x) for x in long_C_ORF]
     return amino_acid_list
