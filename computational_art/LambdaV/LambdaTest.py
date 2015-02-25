@@ -1,4 +1,3 @@
-""" TODO: Put your header comment here """
 
 import random
 import math
