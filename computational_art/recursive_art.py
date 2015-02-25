@@ -1,4 +1,4 @@
-""" TODO: Put your header comment here """
+""" TODO: Put your header comment here """ #Where's header comment?
 
 import random
 import math
@@ -12,9 +12,9 @@ operator_table = ["x",
                   "cos_pi",
                   "prod",
                   "avg"
-                  ]
+                  ] #OK, but next time define these inside your function. No need to globally define things unless required
 
-def build_random_function(min_depth, max_depth):
+def build_random_function_orig(min_depth, max_depth):
     """ Builds a random function of depth at least min_depth and depth
         at most max_depth (see assignment writeup for definition of depth
         in this context)
@@ -25,7 +25,11 @@ def build_random_function(min_depth, max_depth):
                  (see assignment writeup for details on the representation of
                  these functions)
     """
-    # TODO: implement this
+    """
+    This function returns a list that has additional operator blocks appended to the end instead of a nested function
+    I have pasted the correct implementation of this code below, please take a look
+    """
+    # TODO: implement this <--Delete unecessary code
     f = []
     #includes depth one operators "x" and "y"
     if min_depth == 1:
@@ -46,13 +50,28 @@ def build_random_function(min_depth, max_depth):
     if operator<2:
         pass
     elif operator<6:
-        f.append(build_random_function(new_min_depth,max_depth-1))
+        f.append(build_random_function(new_min_depth,max_depth-1)) 
     else:
         f.append(build_random_function(new_min_depth,max_depth-1))
         f.append(build_random_function(new_min_depth,max_depth-1))
 
         
-    return f
+    return f #You shouldn't be appending things to a list. The output of build_random_function is a nested list
+
+def build_random_function(min_depth, max_depth):
+                  """
+                  Correction to above build_random_function
+                  """
+    base = ['x','y']
+    func = ['x','y','cos_pi','sin_pi','prod','square','average']
+    if max_depth == 1:
+        return base[random.randint(0,1)]
+    else:
+        block = func[random.randint(2,6)]
+        if block == 'prod' or 'average': #accouts for when a block requires two inputs
+            return [block, build_random_function(min_depth-1, max_depth-1), build_random_function(min_depth-1, max_depth-1)]
+        elif not block == 'prod':
+           return [block, build_random_function(min_depth-1, max_depth-1)]
 
 def evaluate_random_function(f, x, y):
     """ Evaluate the random function f with inputs x,y
@@ -80,7 +99,12 @@ def evaluate_random_function(f, x, y):
         >>> evaluate_random_function(["sin_pi",["cos_pi",["x"]]],.25,1)
         0.7956932015674809
     """
-
+    #Don't need to check for length, the below implementation works too.
+    f = f[0]
+    if f == "x":
+        #etc, etc 
+        pass
+        
     if len(f) == 1:
         if f[0] == "x":
             return x
@@ -128,13 +152,13 @@ def remap_interval(val, input_interval_start, input_interval_end, output_interva
         >>> remap_interval(5, 4, 6, 1, 2)
         1.5
     """
-    #Gives channel length of output
+    #Gives channel length of output <--Nice comments! Use them more often!
     new_channel_length = output_interval_end - output_interval_start
     #Input Channel Length
     channel_length = input_interval_end - input_interval_start
     #Subtracts out the initial start to give depth into the channel for the input, and divides by the channel depth. 
     #Essentially gives the ratio of the depth into the channel
-    ratio = (val-input_interval_start)/(channel_length + 0.0)
+    ratio = (val-input_interval_start)./(channel_length) #works too
     #Multiplies to find depth into new channel, and adds the starting offset.
     return ratio*new_channel_length + output_interval_start
 
@@ -211,7 +235,7 @@ if __name__ == '__main__':
     import doctest
     doctest.testmod()
 
-    # Create some computational art!
+    # Create some computational art! <--Delete this
     # TODO: Un-comment the generate_art function call after you
     #       implement remap_interval and evaluate_random_function
     for x in range(0,5):
