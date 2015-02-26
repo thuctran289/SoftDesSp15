@@ -120,11 +120,7 @@ def graph_network(website_link, degrees):
 	for whatever website you start with and work your way up in degrees
 	This particular function is used to find all the unique websites that can be accessed from the front page of each website.
 	Essentially, you would find all websites that are accesible from website_link's homepage and then go to their homepages and see
-	Which websites are accesible from their and so on. This will continue until you get degrees clicks away.
-
-	Sample benchmarks for 
-	reddit.com is roughly 13 seconds.
-	google.com is roughly 3 seconds. 
+	Which websites are accesible from their and so on. This will continue until you get degrees clicks away. 
 
 	"""
 	#Generates the list of sites. see above ^
@@ -151,4 +147,4 @@ def graph_network(website_link, degrees):
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
-    graph_network('http://www.aol.com', 3)
+    graph_network('http://www.google.com', 3)
