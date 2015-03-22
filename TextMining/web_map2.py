@@ -29,8 +29,11 @@ def get_links(seed_link):
 		for link in list_of_urls:
 			if link not in unique_links:
 				unique_links.append(link)
-			else:
+			else: #don't need this else statement
 				pass
+			
+		#You can combine the upper two for functions, don't need to loop through it twice
+		
 		#returns the links. 
 		return unique_links
 	except:
@@ -40,7 +43,7 @@ def clean_url(seed_link):
 	This function cleans a seed_link so that it will be usable for the pattern URL download api.
 	This will be based on the allowed domains listed below.
 	If no domains are present, then it just returns -1.
-	>>> clean_url('google.com')
+	>>> clean_url('google.com') #nice job testing
 	u'http://www.google.com'
 	>>> clean_url('asfa')
 	-1
@@ -50,7 +53,7 @@ def clean_url(seed_link):
 	-1
 	""" 
 	#Tokenizes based on . and /
-	parts_of_url = re.split(r'[./]+',seed_link)
+	parts_of_url = re.split(r'[./]+',seed_link) #nice use of regex
 	#list of allowed domains. Add more if you want more coverage. There will be problems with other countries most likely....
 	allowed_domain = ['com','gov','edu','org', '']
 	#iterates through the choices above
@@ -61,7 +64,7 @@ def clean_url(seed_link):
 			index_of_domain = parts_of_url.index(domain)
 			return u'http://www.' + parts_of_url[index_of_domain-1] + u'.'+ domain
 		#If not, we just skip it.
-		else:
+		else: #don't need this
 			pass
 	#if no allowed domain was found... we just return -1
 	return -1
@@ -86,7 +89,7 @@ def web_crawl(seed_link, degrees):
 			new_links_from_work_url = get_links(work_url)
 			#This skips the link if the link is invalid -> not an actual website. 
 			if new_links_from_work_url == -1:
-				continue
+				continue #nice job saving processing time
 			#Creates a working copy of the new_links so that we can edit it.
 			new_links_from_work_url_copy = list(new_links_from_work_url)
 			#This will find all the sites that are unique by iteration
