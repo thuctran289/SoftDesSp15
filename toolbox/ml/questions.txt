@@ -1,0 +1,8 @@
+1. What is the general trend in the curve?
+	In general, it is increasing. As we increase the percentage of the data as training data, we get more generally more accurate predictions. 
+2. Are there parts of the curve that appear to be noisier than others?  Why?
+	No particular part of the curve stands out as being much nosier than other parts. It appears uniformly noisy across the line. If I had to guess why, it would be due to the variance occuring uniformly across different digits. 
+3. How many trials do you need to get a smooth curve?
+	It depends on a definition of smoothness, but it does get much smoother as you increase the number of trials. I would guess that for a very smooth line, at least a hundred trials were needed. However, this still does not generate a strictly increasing line. More generally, having 10-15 trials will probably be sufficient for a smooth line. 
+4. Try different values for C (by changing LogisticRegression(C=10**-10)).  What happens?  If you want to know why this happens, see this Wikipedia page as well as the documentation for LogisticRegression in scikit-learn.
+	A substantially larger C (C == 10^10) will take much longer to generate a model. However, the accuracy for the data seems to be much higher at across all percentages. In particular, using 5% of the data with this value appears to be more accurate than using 90% with a C == 10^-10. Conversely, using a smaller C (C==10^-50), the accuracy is uniformly worse than the larger values of C, and does not have its accuracy scale with more data. 
