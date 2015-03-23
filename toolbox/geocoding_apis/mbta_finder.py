@@ -12,6 +12,8 @@ import urllib2  # urlopen function (better than urllib version)
 import json
 
 
+#response_data["results"][0]["geometry"]["location"]
+#The above will give me lng, and lat. search by those to get. 
 # Useful URLs (you need to add the appropriate parameters for your requests)
 GMAPS_BASE_URL = "https://maps.googleapis.com/maps/api/geocode/json"
 MBTA_BASE_URL = "http://realtime.mbta.com/developer/api/v2/stopsbylocation"
@@ -25,7 +27,8 @@ def get_json(url):
     Given a properly formatted URL for a JSON web API request, return
     a Python JSON object containing the response to that request.
     """
-    pass
+    data = urllib2.urlopen(url)
+    return data
 
 
 def get_lat_long(place_name):
@@ -36,7 +39,7 @@ def get_lat_long(place_name):
     See https://developers.google.com/maps/documentation/geocoding/
     for Google Maps Geocode API URL formatting requirements.
     """
-    pass
+    json_data = get_json()
 
 
 def get_nearest_station(latitude, longitude):
